@@ -11,7 +11,7 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -384,
+        -512,
         160
       ],
       "id": "96aec525-dd37-46fe-8cc2-4f097314f363",
@@ -26,30 +26,13 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $('Get transcript').item.json.content }}",
-        "options": {
-          "systemMessage": "Ты - экспертный ассистент, который позволяет осмыслять длинные меериалы (подкасты, видео, интервью, статьи). \nНа вход у тебя транскрибация иногда с тайм кодами.\n\nсделай основную выжимку из текста который у тебя на входе, далее если указаны конкретные шаги или цифры то тоже необходимо упомянуть.\n\nтакже отдельным блоком (абзацем) сделай рекомендации которые есть в тексте\n\nТребования к тексту:\n1. всегда переводи ответ на русский язык\n2. на выходе должен быть простой текст без форматирования Markdown"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 3.1,
-      "position": [
-        400,
-        48
-      ],
-      "id": "21be9e09-fc95-412f-a921-04ddc7744f46",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
         "model": "arcee-ai/trinity-mini:free",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        224,
+        160,
         208
       ],
       "id": "ef07a0b0-1ac3-45c2-8661-7235b454304c",
@@ -78,8 +61,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -224,
-        32
+        -384,
+        160
       ],
       "id": "9ea11e85-ace7-43a5-abb2-be33668d7726",
       "name": "Edit Fields"
@@ -132,8 +115,8 @@
       "type": "n8n-nodes-supadata.supadata",
       "typeVersion": 1,
       "position": [
-        -32,
-        -16
+        -64,
+        304
       ],
       "id": "c67a1fc9-8b88-4bdf-93c5-db0f936f1269",
       "name": "Get transcript",
@@ -146,13 +129,13 @@
     },
     {
       "parameters": {
-        "content": "## Отправка в телеграмм\n\nс разбиением длинного текста на несколько сообщений",
-        "height": 336,
-        "width": 416
+        "content": "## Отправка в телеграмм\n\nс очисткой текста от спец символов и разбиением длинного текста на несколько сообщений",
+        "height": 304,
+        "width": 608
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        720,
+        528,
         -64
       ],
       "typeVersion": 1,
@@ -167,11 +150,122 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        624,
-        320
+        608,
+        48
       ],
       "id": "c409e4f8-5f78-4443-8126-0cd66a1c2796",
       "name": "Clear text"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Get transcript').item.json.content }}",
+        "options": {
+          "systemMessage": "Ты — экспертный ассистент по анализу и структурированию длинных материалов (подкастов, видео, интервью, статей).\n\nВХОДНЫЕ ДАННЫЕ:\nТекстовая транскрибация материала, которая может содержать таймкоды.\n\nТВОЯ ЗАДАЧА:\nПроанализировать материал и создать структурированный текст, состоящий из следующих блоков:\n\nБЛОК 1 — ОСНОВНАЯ ВЫЖИМКА\nСформулируй краткое содержание материала. Включи:\n- Главную тему и ключевую мысль\n- Основные тезисы и идеи\n- Важные аргументы и выводы\n\nБЛОК 2 — КОНКРЕТИКА (если присутствует в материале)\nВыдели отдельным абзацем:\n- Конкретные шаги, инструкции, алгоритмы действий\n- Цифры, статистику, данные исследований\n- Факты, даты, имена\n\nБЛОК 3 — РЕКОМЕНДАЦИИ (если присутствуют в материале)\nВыдели отдельным абзацем:\n- Практические советы и рекомендации\n- Что автор предлагает сделать или применить\n- К каким выводам призывает\n\nТРЕБОВАНИЯ К ОФОРМЛЕНИЮ:\n1. Весь ответ ОБЯЗАТЕЛЬНО на русском языке (даже если исходный материал на другом языке)\n2. Используй ТОЛЬКО простой текст без форматирования Markdown\n3. Не используй символы *, #, -, ** и другие элементы разметки\n4. Разделяй блоки пустой строкой\n5. Начинай каждый блок с его названия заглавными буквами\n\nЕсли какой-то из блоков 2 или 3 отсутствует в материале, пропусти его."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        176,
+        -16
+      ],
+      "id": "21be9e09-fc95-412f-a921-04ddc7744f46",
+      "name": "AI Agent Promt from Claude"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Get transcript').item.json.content }}",
+        "options": {
+          "systemMessage": "Ты — экспертный аналитический ассистент по работе с длинными материалами: подкастами, видео, интервью, лекциями и статьями.\n\nНа вход ты получаешь текстовую транскрибацию материала. Транскрибация может быть:\n\nдлинной и несжатой\n\nс ошибками устной речи\n\nс повторами\n\nс таймкодами (их нужно игнорировать, если не указано иное)\n\nТвоя задача — осмыслить содержание и выдать структурированный, понятный результат.\n\nАлгоритм работы:\n\nВнимательно проанализируй весь входной текст, выдели ключевые идеи, смыслы и выводы.\n\nСформируй основную выжимку:\n\nкратко, но по существу\n\nпередай общий смысл материала\n\nисключи повторы, воду и второстепенные детали\n\nЕсли в тексте упоминаются:\n\nконкретные шаги\n\nинструкции\n\nчисловые данные\n\nметрики, сроки, проценты, суммы\nобязательно отрази их в выжимке.\n\nОтдельным логическим блоком выдели рекомендации, советы или практические выводы, которые даёт автор текста (явно или неявно).\n\nТребования к результату:\n\nВсегда переводи и формулируй ответ на русском языке, независимо от языка входного текста. После того как ты сформулируешь ответ, снова обязательно проверь ответ точно на русском языке, если не на русском языке, то переведи на русский язык.\n\nИспользуй простой, понятный текст.\n\nНе применяй Markdown, списки с маркерами, нумерацию или специальное форматирование.\n\nДопускается логическое разделение текста на абзацы.\n\nПиши нейтральным, аналитическим тоном, без добавления собственных мнений.\n\nРезультат должен быть таким, чтобы человек мог быстро понять суть материала, не читая или не слушая оригинал."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        160,
+        368
+      ],
+      "id": "48953dc6-adaf-4b67-98b9-9e1e48b5fa24",
+      "name": "AI Agent Promt from ChatGPT"
+    },
+    {
+      "parameters": {
+        "model": "arcee-ai/trinity-mini:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        96,
+        560
+      ],
+      "id": "f297ae20-2afe-4ddd-82ce-5fceb7a34bc1",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "ko1scYPg6D1qjsUo",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d7522294-8102-4955-aa85-e2122f37ed56",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -224,
+        160
+      ],
+      "id": "d5b84b65-0495-449e-bdbd-6f4975445992",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Привет! Это бот получения смыслов из ютуб видео. \nОтправь мне ссылку на ютуб видео и я тебе расскажу о чём оно.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "be098dcb-c34c-4666-b49e-a292cfe5ec21",
+      "name": "Send a text message1",
+      "webhookId": "26158572-b7fb-4e42-9628-a40839c45189",
+      "credentials": {
+        "telegramApi": {
+          "id": "or6knJG7ipdEOh7j",
+          "name": "TG_i_test_log_bot"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -191,7 +285,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent Promt from Claude",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -202,18 +296,7 @@
       "main": [
         [
           {
-            "node": "Get transcript",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent": {
-      "main": [
-        [
-          {
-            "node": "Clear text",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -235,7 +318,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent Promt from ChatGPT",
             "type": "main",
             "index": 0
           }
@@ -252,14 +335,59 @@
           }
         ]
       ]
+    },
+    "AI Agent Promt from Claude": {
+      "main": [
+        []
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Promt from ChatGPT",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Promt from ChatGPT": {
+      "main": [
+        [
+          {
+            "node": "Clear text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "00eaf16d-2a27-4def-bb12-1c0b66235592",
+  "versionId": "ddf0ab91-262d-4528-9139-a1b539d96a73",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
