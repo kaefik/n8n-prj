@@ -1,0 +1,269 @@
+{
+  "name": "YT transcribe",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -384,
+        160
+      ],
+      "id": "96aec525-dd37-46fe-8cc2-4f097314f363",
+      "name": "Telegram Trigger",
+      "webhookId": "a2f779bf-2e7a-4121-bd9f-fc1afa00df02",
+      "credentials": {
+        "telegramApi": {
+          "id": "RjxOYO2IYkrkGx9o",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Get transcript').item.json.content }}",
+        "options": {
+          "systemMessage": "Ты - экспертный ассистент, который позволяет осмыслять длинные меериалы (подкасты, видео, интервью, статьи). \nНа вход у тебя транскрибация иногда с тайм кодами.\n\nсделай основную выжимку из текста который у тебя на входе, далее если указаны конкретные шаги или цифры то тоже необходимо упомянуть.\n\nтакже отдельным блоком (абзацем) сделай рекомендации которые есть в тексте\n\nТребования к тексту:\n1. всегда переводи ответ на русский язык\n2. на выходе должен быть простой текст без форматирования Markdown"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        48
+      ],
+      "id": "21be9e09-fc95-412f-a921-04ddc7744f46",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "arcee-ai/trinity-mini:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        224,
+        208
+      ],
+      "id": "ef07a0b0-1ac3-45c2-8661-7235b454304c",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "ko1scYPg6D1qjsUo",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f414467-64f5-4b87-b4dc-68f26e10d34b",
+              "name": "text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        32
+      ],
+      "id": "9ea11e85-ace7-43a5-abb2-be33668d7726",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        944,
+        48
+      ],
+      "id": "40177bfe-b2ec-4df0-b5c1-a31dfd45f627",
+      "name": "Send a text message",
+      "webhookId": "26158572-b7fb-4e42-9628-a40839c45189",
+      "credentials": {
+        "telegramApi": {
+          "id": "or6knJG7ipdEOh7j",
+          "name": "TG_i_test_log_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "text = _items[0][\"json\"][\"output\"] # если поле называется иначе — поменяй\nMAX_LENGTH = 4000  # безопасный лимит\n\nchunks = []\n\nfor i in range(0, len(text), MAX_LENGTH):\n    chunks.append({\n        \"json\": {\n            \"text\": text[i:i + MAX_LENGTH]\n        }\n    })\n\nreturn chunks\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        48
+      ],
+      "id": "04a0da7a-4ebc-49e6-a852-99b60f4b0bbe",
+      "name": "long text to array",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "getTranscript",
+        "videoUrl": "={{ $json.text }}",
+        "text": true
+      },
+      "type": "n8n-nodes-supadata.supadata",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "c67a1fc9-8b88-4bdf-93c5-db0f936f1269",
+      "name": "Get transcript",
+      "credentials": {
+        "supadataApi": {
+          "id": "BYnoD9MVgPkpSw2B",
+          "name": "Supadata account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Отправка в телеграмм\n\nс разбиением длинного текста на несколько сообщений",
+        "height": 336,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "69820b19-fe97-4394-bb63-845e02ad2531",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "text = _items[0][\"json\"][\"output\"]\n\n# Список символов для удаления\nchars_to_remove = ['*', '_', '`', '~', '[', ']', '(', ')']\n\nfor char in chars_to_remove:\n    text = text.replace(char, '')\n\nresult = {       \"output\": text\n        }\n         \n\nreturn result"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        320
+      ],
+      "id": "c409e4f8-5f78-4443-8126-0cd66a1c2796",
+      "name": "Clear text"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Get transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Clear text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "long text to array": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get transcript": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear text": {
+      "main": [
+        [
+          {
+            "node": "long text to array",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "00eaf16d-2a27-4def-bb12-1c0b66235592",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
+  },
+  "id": "uYT-cReP2-h5XP7Nbb4u7",
+  "tags": []
+}
