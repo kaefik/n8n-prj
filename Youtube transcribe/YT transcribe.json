@@ -315,6 +315,21 @@
       ],
       "id": "23d73496-b94d-4439-b61e-37241a77b305",
       "name": "Error Text from Transcribe"
+    },
+    {
+      "parameters": {
+        "content": "## TODO\n\n- доступ к боту только по ограниченному списку\n- добавление средств администрирования пользователей бота (добавление, удаление пользователей)",
+        "height": 336,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -608,
+        368
+      ],
+      "typeVersion": 1,
+      "id": "e2cf3e7f-fe4f-4a13-924e-edfdfdb5c758",
+      "name": "Sticky Note1"
     }
   ],
   "pinData": {},
@@ -472,7 +487,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "92dd9a0e-cf93-462e-aa31-e65d4586062d",
+  "versionId": "19cf983d-3cc5-45ac-827f-31915a42f809",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
