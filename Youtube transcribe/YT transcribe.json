@@ -248,30 +248,6 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "=Привет! Это бот получения смыслов из ютуб видео. \nОтправь мне ссылку на ютуб видео и я тебе расскажу о чём оно.",
-        "additionalFields": {
-          "appendAttribution": false
-        }
-      },
-      "type": "n8n-nodes-base.telegram",
-      "typeVersion": 1.2,
-      "position": [
-        -80,
-        0
-      ],
-      "id": "be098dcb-c34c-4666-b49e-a292cfe5ec21",
-      "name": "Send a text message1",
-      "webhookId": "26158572-b7fb-4e42-9628-a40839c45189",
-      "credentials": {
-        "telegramApi": {
-          "id": "or6knJG7ipdEOh7j",
-          "name": "TG_i_test_log_bot"
-        }
-      }
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -330,6 +306,29 @@
       "typeVersion": 1,
       "id": "e2cf3e7f-fe4f-4a13-924e-edfdfdb5c758",
       "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
+              "name": "output",
+              "value": "=Привет! Это бот получения смыслов из ютуб видео. \nОтправь мне ссылку на ютуб видео и я тебе расскажу о чём оно.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        -64
+      ],
+      "id": "0aa522a3-b7c9-46c1-a0ef-fa794d7792eb",
+      "name": "Text Start Hello"
     }
   ],
   "pinData": {},
@@ -445,7 +444,7 @@
       "main": [
         [
           {
-            "node": "Send a text message1",
+            "node": "Text Start Hello",
             "type": "main",
             "index": 0
           }
@@ -480,6 +479,17 @@
           }
         ]
       ]
+    },
+    "Text Start Hello": {
+      "main": [
+        [
+          {
+            "node": "Clear text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -487,7 +497,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "19cf983d-3cc5-45ac-827f-31915a42f809",
+  "versionId": "287eb9e7-f024-47b7-9e9f-3e294c7d657a",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
