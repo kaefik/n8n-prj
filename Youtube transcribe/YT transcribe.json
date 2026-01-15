@@ -32,8 +32,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        160,
-        208
+        -576,
+        -32
       ],
       "id": "ef07a0b0-1ac3-45c2-8661-7235b454304c",
       "name": "OpenRouter Chat Model",
@@ -116,7 +116,7 @@
       "typeVersion": 1,
       "position": [
         -64,
-        304
+        160
       ],
       "id": "c67a1fc9-8b88-4bdf-93c5-db0f936f1269",
       "name": "Get transcript",
@@ -125,7 +125,9 @@
           "id": "BYnoD9MVgPkpSw2B",
           "name": "Supadata account"
         }
-      }
+      },
+      "onError": "continueErrorOutput",
+      "notes": "произошла ошибка получения транскрибации"
     },
     {
       "parameters": {
@@ -167,8 +169,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        176,
-        -16
+        -576,
+        -176
       ],
       "id": "21be9e09-fc95-412f-a921-04ddc7744f46",
       "name": "AI Agent Promt from Claude"
@@ -184,22 +186,22 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        160,
-        368
+        192,
+        80
       ],
       "id": "48953dc6-adaf-4b67-98b9-9e1e48b5fa24",
       "name": "AI Agent Promt from ChatGPT"
     },
     {
       "parameters": {
-        "model": "arcee-ai/trinity-mini:free",
+        "model": "google/gemini-2.0-flash-exp:free",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        96,
-        560
+        208,
+        288
       ],
       "id": "f297ae20-2afe-4ddd-82ce-5fceb7a34bc1",
       "name": "OpenRouter Chat Model1",
@@ -266,6 +268,29 @@
           "name": "TG_i_test_log_bot"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d69a237a-68e8-4498-b3d2-cc3e3f7c87f9",
+              "name": "output",
+              "value": "={{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        464
+      ],
+      "id": "23d73496-b94d-4439-b61e-37241a77b305",
+      "name": "Error Text"
     }
   ],
   "pinData": {},
@@ -319,6 +344,13 @@
         [
           {
             "node": "AI Agent Promt from ChatGPT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Text",
             "type": "main",
             "index": 0
           }
@@ -380,14 +412,25 @@
           }
         ]
       ]
+    },
+    "Error Text": {
+      "main": [
+        [
+          {
+            "node": "Clear text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "ddf0ab91-262d-4528-9139-a1b539d96a73",
+  "versionId": "4f7c3e34-456a-4c91-997a-3bb59ed7197e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
