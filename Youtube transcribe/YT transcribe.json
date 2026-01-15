@@ -11,8 +11,8 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -816,
-        144
+        -1696,
+        -144
       ],
       "id": "96aec525-dd37-46fe-8cc2-4f097314f363",
       "name": "Telegram Trigger",
@@ -26,29 +26,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2f414467-64f5-4b87-b4dc-68f26e10d34b",
-              "name": "text",
-              "value": "={{ $json.message.text }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -384,
-        160
-      ],
-      "id": "9ea11e85-ace7-43a5-abb2-be33668d7726",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "text": "={{ $json.text }}",
         "additionalFields": {
@@ -58,7 +35,7 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1328,
+        1504,
         160
       ],
       "id": "40177bfe-b2ec-4df0-b5c1-a31dfd45f627",
@@ -79,7 +56,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1168,
+        1344,
         160
       ],
       "id": "04a0da7a-4ebc-49e6-a852-99b60f4b0bbe",
@@ -117,7 +94,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        912,
+        1088,
         48
       ],
       "typeVersion": 1,
@@ -132,7 +109,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        992,
+        1168,
         160
       ],
       "id": "c409e4f8-5f78-4443-8126-0cd66a1c2796",
@@ -149,8 +126,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        192,
-        80
+        496,
+        96
       ],
       "id": "48953dc6-adaf-4b67-98b9-9e1e48b5fa24",
       "name": "AI Agent Promt from ChatGPT",
@@ -164,8 +141,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
       "typeVersion": 1,
       "position": [
-        208,
-        288
+        464,
+        320
       ],
       "id": "f297ae20-2afe-4ddd-82ce-5fceb7a34bc1",
       "name": "OpenRouter Chat Model1",
@@ -175,6 +152,113 @@
           "name": "OpenRouter account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
+              "name": "output",
+              "value": "=Ошибка с AI обработкой:  {{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        320
+      ],
+      "id": "c0ea09fd-472c-4ab3-977f-6b14b38d581d",
+      "name": "Error Text from AI"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d69a237a-68e8-4498-b3d2-cc3e3f7c87f9",
+              "name": "output",
+              "value": "=Ошибка транскрибации: {{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        448
+      ],
+      "id": "23d73496-b94d-4439-b61e-37241a77b305",
+      "name": "Error Text from Transcribe"
+    },
+    {
+      "parameters": {
+        "content": "## TODO\n\n- добавление средств администрирования пользователей бота (добавление, удаление пользователей)",
+        "height": 304,
+        "width": 512
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1216,
+        384
+      ],
+      "typeVersion": 1,
+      "id": "e2cf3e7f-fe4f-4a13-924e-edfdfdb5c758",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
+              "name": "output",
+              "value": "=Привет! Это бот получения смыслов из ютуб видео. \nОтправь мне ссылку на ютуб видео и я тебе расскажу о чём оно.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        -96
+      ],
+      "id": "0aa522a3-b7c9-46c1-a0ef-fa794d7792eb",
+      "name": "Text Start Hello"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
+              "name": "output",
+              "value": "=Привет! у тебя нет доступа к боту. Обратись к админиcтратору бота и сообщи ему свой id  {{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        -400
+      ],
+      "id": "35624959-cc4c-4895-bc1c-5748e61f0e71",
+      "name": "Text Dont Access Bot"
     },
     {
       "parameters": {
@@ -207,91 +291,37 @@
         160
       ],
       "id": "d5b84b65-0495-449e-bdbd-6f4975445992",
-      "name": "If"
+      "name": "If check start command"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
-              "name": "output",
-              "value": "=Ошибка с AI обработкой:  {{ $json.error }}",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "{\n  \"users\": [\n    { \"id\": 2, \"name\": \"Мария\" },\n    { \"id\": 3608708, \"name\": \"Ильнур\" },\n    { \"id\": 3, \"name\": \"Алексей\" }\n  ]\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        528,
-        192
+        -1440,
+        -144
       ],
-      "id": "c0ea09fd-472c-4ab3-977f-6b14b38d581d",
-      "name": "Error Text from AI"
+      "id": "3ecb0e77-c65b-4dae-9d7a-76416a1a3276",
+      "name": "User Allow Bot"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "d69a237a-68e8-4498-b3d2-cc3e3f7c87f9",
-              "name": "output",
-              "value": "=Ошибка транскрибации: {{ $json.error }}",
-              "type": "string"
-            }
-          ]
-        },
+        "fieldToSplitOut": "users",
+        "include": "allOtherFields",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        256,
-        464
-      ],
-      "id": "23d73496-b94d-4439-b61e-37241a77b305",
-      "name": "Error Text from Transcribe"
-    },
-    {
-      "parameters": {
-        "content": "## TODO\n\n- доступ к боту только по ограниченному списку\n- добавление средств администрирования пользователей бота (добавление, удаление пользователей)",
-        "height": 304,
-        "width": 512
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -1216,
-        384
-      ],
+      "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "id": "e2cf3e7f-fe4f-4a13-924e-edfdfdb5c758",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
-              "name": "output",
-              "value": "=Привет! Это бот получения смыслов из ютуб видео. \nОтправь мне ссылку на ютуб видео и я тебе расскажу о чём оно.",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
       "position": [
-        -48,
-        -64
+        -1088,
+        -144
       ],
-      "id": "0aa522a3-b7c9-46c1-a0ef-fa794d7792eb",
-      "name": "Text Start Hello"
+      "id": "c5334576-f0cf-4975-a47d-99177ab9cc2b",
+      "name": "Split Out"
     },
     {
       "parameters": {
@@ -304,22 +334,12 @@
           },
           "conditions": [
             {
-              "id": "ad7f4f57-b4c3-4fcd-83f0-ca3be92f457c",
-              "leftValue": "={{ $json.message.from.id }}",
-              "rightValue": 3608708,
+              "id": "d5cbdf69-4620-4024-8863-61d42f239449",
+              "leftValue": "={{ $json.users.id }}",
+              "rightValue": "={{ $('Telegram Trigger').item.json.message.from.id }}",
               "operator": {
                 "type": "number",
-                "operation": "notEquals"
-              }
-            },
-            {
-              "id": "a4c99f79-5f47-4bf6-8a45-f8d51f517550",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
+                "operation": "equals"
               }
             }
           ],
@@ -330,20 +350,40 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -624,
-        144
+        -928,
+        -144
       ],
-      "id": "ca395851-1902-43c5-ac9c-cd6a9ca06353",
-      "name": "If1"
+      "id": "c561f683-3485-495f-8471-12a30c76e301",
+      "name": "Check Allow User"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "users"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        -240
+      ],
+      "id": "ec851392-b0db-494d-9240-0bd952732e01",
+      "name": "Aggregate"
     },
     {
       "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "332c3f8b-6b43-4209-9299-de9c9ad50837",
-              "name": "output",
-              "value": "=Привет! у тебя нет доступа к боту. Обратись к админиcтратору бота и сообщи ему свой id  {{ $('Telegram Trigger').item.json.message.from.id }}",
+              "id": "2f414467-64f5-4b87-b4dc-68f26e10d34b",
+              "name": "text",
+              "value": "={{ $('Telegram Trigger').item.json.message.text }}",
               "type": "string"
             }
           ]
@@ -353,11 +393,74 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -416,
-        -48
+        -384,
+        160
       ],
-      "id": "35624959-cc4c-4895-bc1c-5748e61f0e71",
-      "name": "Text Dont Access Bot"
+      "id": "9ea11e85-ace7-43a5-abb2-be33668d7726",
+      "name": "Get Text from TG"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8899e6fd-cad0-4d30-b87e-41ba5d9fabe7",
+              "leftValue": "={{ $json.users.length  }}",
+              "rightValue": "={{ $('User Allow Bot').item.json.users.length }}",
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -608,
+        -240
+      ],
+      "id": "172faca4-3a24-48e6-9341-e07c731d3408",
+      "name": "Check dont allow users"
+    },
+    {
+      "parameters": {
+        "content": "## Провека на правомерноть дотупа  боту",
+        "height": 464,
+        "width": 736
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "2cfa734d-7698-48f1-b156-3346a686b7dc",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Список пользователей имеющих доступ к боту \n\nв ноде  User Allow Bot\nформат записей пользователей\nid - id пользователя телеграмма \n\n{\n  \"users\": [\n    { \"id\": 2, \"name\": \"Мария\" },\n    { \"id\": 36, \"name\": \"Ильнур\" },\n    { \"id\": 3, \"name\": \"Алексей\" }\n  ]\n",
+        "height": 608,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1504,
+        -544
+      ],
+      "typeVersion": 1,
+      "id": "f9b578c9-287d-448c-b93d-7b6422e1d4a0",
+      "name": "Sticky Note3"
     }
   ],
   "pinData": {},
@@ -366,18 +469,7 @@
       "main": [
         [
           {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "If",
+            "node": "User Allow Bot",
             "type": "main",
             "index": 0
           }
@@ -453,24 +545,6 @@
         ]
       ]
     },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Text Start Hello",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Get transcript",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Error Text from AI": {
       "main": [
         [
@@ -504,24 +578,6 @@
         ]
       ]
     },
-    "If1": {
-      "main": [
-        [
-          {
-            "node": "Text Dont Access Bot",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Text Dont Access Bot": {
       "main": [
         [
@@ -532,6 +588,98 @@
           }
         ]
       ]
+    },
+    "If check start command": {
+      "main": [
+        [
+          {
+            "node": "Text Start Hello",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Allow Bot": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Check Allow User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Allow User": {
+      "main": [
+        [
+          {
+            "node": "Get Text from TG",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Check dont allow users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Text from TG": {
+      "main": [
+        [
+          {
+            "node": "If check start command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check dont allow users": {
+      "main": [
+        [
+          {
+            "node": "Text Dont Access Bot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
     }
   },
   "active": false,
@@ -539,7 +687,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "910a9c87-008d-473b-89a2-8ffcec2a65af",
+  "versionId": "984c5cae-9d81-4167-974b-18b18823091c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
