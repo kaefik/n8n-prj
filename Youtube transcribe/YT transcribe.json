@@ -434,7 +434,7 @@
     },
     {
       "parameters": {
-        "content": "## Провека на правомерноть дотупа  боту",
+        "content": "## Проверка на правомерноcть доступа  к  боту",
         "height": 464,
         "width": 736
       },
@@ -461,6 +461,183 @@
       "typeVersion": 1,
       "id": "f9b578c9-287d-448c-b93d-7b6422e1d4a0",
       "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d2c7657c-5eda-409e-8cea-dbbf36c488fb",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e26b3f35-99f0-4f08-baf1-2d4277678f1c",
+              "name": "name",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "e9af1310-b79f-4cd0-8bdb-6a5455c47053",
+              "name": "url",
+              "value": "={{ $('Get Text from TG').item.json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "935319d7-e330-4b6e-8fc5-4538150c04dd",
+              "name": "summary",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "d58ccfe5-40d3-4bc5-aba9-7b53bfec7dde",
+              "name": "content",
+              "value": "={{ $('Get transcript').item.json.content }}",
+              "type": "string"
+            },
+            {
+              "id": "89891402-f53c-4607-8a83-fd1f21dde3f4",
+              "name": "comment",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        -496
+      ],
+      "id": "4be4c700-801c-4dc4-8789-2ba6e4298bb9",
+      "name": "FormatData to Save"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "19dFoot0pxb9pDMyUJbNdHabzq2Z7RJnatHjTZYo3Bdk",
+          "mode": "list",
+          "cachedResultName": "yt video and content",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19dFoot0pxb9pDMyUJbNdHabzq2Z7RJnatHjTZYo3Bdk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19dFoot0pxb9pDMyUJbNdHabzq2Z7RJnatHjTZYo3Bdk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('FormatData to Save').item.json.name }}",
+            "Url": "={{ $('FormatData to Save').item.json.url }}",
+            "Summary": "={{ $('FormatData to Save').item.json.summary }}",
+            "Comment": "={{ $('FormatData to Save').item.json.comment }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        944,
+        -496
+      ],
+      "id": "f86b290a-407d-4fd8-9aa4-044be007e3c9",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qHESGrJByZB7ANtu",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d69a237a-68e8-4498-b3d2-cc3e3f7c87f9",
+              "name": "output",
+              "value": "=Ошибка сохранении в гунл таблицы: {{ $json.error }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        -480
+      ],
+      "id": "e07a3c4d-24ed-4148-b569-64eb56053c74",
+      "name": "Error Text Save to Sheets"
     }
   ],
   "pinData": {},
@@ -532,6 +709,11 @@
         [
           {
             "node": "Clear text",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "FormatData to Save",
             "type": "main",
             "index": 0
           }
@@ -680,6 +862,40 @@
         ],
         []
       ]
+    },
+    "FormatData to Save": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Error Text Save to Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Text Save to Sheets": {
+      "main": [
+        [
+          {
+            "node": "Clear text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -687,7 +903,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "984c5cae-9d81-4167-974b-18b18823091c",
+  "versionId": "583969b2-d95d-4cae-bd82-1a7d3f7e8676",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7252d6dc8450686c4b882d05bad3dbb98a6600b851ae7cd1236fed522472feb6"
